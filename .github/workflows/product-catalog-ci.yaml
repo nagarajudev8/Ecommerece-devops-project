@@ -102,5 +102,5 @@ jobs:
                 git stash pop || true
 
                 git add kubernetes/productcatalog/deploy.yaml
-                git commit -m "update product-catalog-${{ github.run_id }}-tag"
+                git commit -m "CI: update product-catalog-${{ github.run_id }}-tag"
                 git push origin HEAD:main 

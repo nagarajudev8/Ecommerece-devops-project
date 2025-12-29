@@ -97,3 +97,5 @@ jobs:
                 git commit -m "update product-catalog-${{github.run_id}}-tag"
 
                 git push origin HEAD:main
+
+                

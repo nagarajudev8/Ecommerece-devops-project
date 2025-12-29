@@ -81,6 +81,11 @@ jobs:
               run: |
                 git config --global user.name "Nagaraju Devulapalli"
                 git config --global user.email "nagarajudev9@gmail.com"
+
+                git fetch origin main
+                git rebase origin/main
+                
                 git add kubernetes/productcatalog/deploy.yaml
                 git commit -m "update product-catalog-${{github.run_id}}-tag"
+
                 git push origin HEAD:main

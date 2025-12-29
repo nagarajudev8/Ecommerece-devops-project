@@ -65,7 +65,7 @@ resource "aws_nat_gateway" "main" {
 }
 
 resource "aws_route_table" "public" {
-    vpc_id = vpc_main.id
+    vpc_id = aws_vpc.main.id
 
     route {
         cidr_block  = "0.0.0.0/0"
@@ -81,7 +81,7 @@ resource "aws_route_table" "private" {
     count = length(var.private_subnet_cidrs)
 
     route {
-        cidr_block = "0.0.0.0/o"
+        cidr_block = "0.0.0.0/0"
         nat_gateway_id = aws_nat_gateway.main[count.index].id
     }
     tags = {

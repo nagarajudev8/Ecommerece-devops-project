@@ -35,10 +35,11 @@ jobs:
               with:
                 go-version: "1.22"
                 cache: true
+
             - name: Run golangci-lint
               uses: golangci/golangci-lint-action@v6
               with:
-                version: v1.55.2
+              
                 working-directory: src/product-catalog
     
     docker:
@@ -91,11 +92,15 @@ jobs:
                 git config --global user.email "nagarajudev9@gmail.com"
 
                 git fetch origin main
+
+                # stash any local changes created by the workflow
+                git stash push -u -m "ci-stash"
+
                 git rebase origin/main
 
+                # bring changes back
+                git stash pop || true
+
                 git add kubernetes/productcatalog/deploy.yaml
-                git commit -m "update product-catalog-${{github.run_id}}-tag"
-
-                git push origin HEAD:main
-
-                
+                git commit -m "update product-catalog-${{ github.run_id }}-tag"
+                git push origin HEAD:main 

@@ -84,3 +84,5 @@ jobs:
                 git add kubernetes/productcatalog/deploy.yaml
                 git commit -m "update product-catalog-${{github.run_id}}-tag"
                 git push origin main
+
+                

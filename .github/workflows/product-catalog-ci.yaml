@@ -83,6 +83,5 @@ jobs:
                 git config --global user.email "nagarajudev9@gmail.com"
                 git add kubernetes/productcatalog/deploy.yaml
                 git commit -m "update product-catalog-${{github.run_id}}-tag"
-                git push origin main
+                git push origin HEAD:main
 
-                

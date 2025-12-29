@@ -47,7 +47,7 @@ resource "aws_iam_role" "node_group" {
     })
 }
 
-resource "aws_iam_role_policy_attacheement" "node_policy" {
+resource "aws_iam_role_policy_attachment" "node_policy" {
     for_each = toset([
         "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
         "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
@@ -55,7 +55,7 @@ resource "aws_iam_role_policy_attacheement" "node_policy" {
     ])
 
     policy_arn = each.value
-    role = aws_iam_role.node.name
+    role = aws_iam_role.node_group.name
 }
 
 resource "aws_eks_node_group" "main" {
@@ -63,15 +63,15 @@ resource "aws_eks_node_group" "main" {
 
     cluster_name = aws_eks_cluster.main.name
     node_group_name = each.key
-    node_role_arn = aws_iam_role_policy.node.arn
+    node_role_arn = aws_iam_role.node_group.arn
     subnet_ids = var.subnet_ids
     instance_types = each.value.instance_types
     capacity_type = each.value.capacity_type
 
     scaling_config {
-        desired_size = each.value.scalling_config.desired_size
-        max_size = each.value.scalling_config.max_size
-        min_size = each.value.scalling_config.min_size
+        desired_size = each.value.scaling_config.desired_size
+        max_size = each.value.scaling_config.max_size
+        min_size = each.value.scaling_config.min_size
     }
 
     depends_on = [aws_iam_role_policy_attachment.node_policy]

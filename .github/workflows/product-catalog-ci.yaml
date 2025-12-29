@@ -68,9 +68,19 @@ jobs:
         runs-on: ubuntu-latest
 
         needs: docker
+
+        permissions:
+          contents: write
+
+        concurrency:
+          group: update-k8s-deployment
+          cancel-in-progress: false
+
         steps:
             - name: checkout code
               uses: actions/checkout@v4
+              with:
+                fetch-depth: 0
               with:
                 token: ${{ secrets.GIT_TOKEN}}
             - name: Update tag in Kubernetes deployment manifest
@@ -84,7 +94,7 @@ jobs:
 
                 git fetch origin main
                 git rebase origin/main
-                
+
                 git add kubernetes/productcatalog/deploy.yaml
                 git commit -m "update product-catalog-${{github.run_id}}-tag"
 
